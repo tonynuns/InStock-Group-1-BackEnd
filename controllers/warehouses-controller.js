@@ -3,7 +3,7 @@ const knex = require('knex')(require('../knexfile'));
 const getWareHouses = async (_req, res) => {
   try {
     const data = await knex('warehouses');
-    res.status(200).json('succesful',data);
+    res.status(200).json(data);
     console.log(data);
   } catch(err) {
   
