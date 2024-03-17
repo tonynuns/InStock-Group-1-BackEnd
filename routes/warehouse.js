@@ -8,7 +8,8 @@ router
 
 router
 .route('/warehouses/:id')
-.get(userController.findSingleWareHouse);
+.get(userController.findSingleWareHouse)
+.delete(userController.deleteWarehouse);
 
 
 
