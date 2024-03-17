@@ -36,7 +36,7 @@ const findSingleWareHouse = async (req, res) => {
 const addNewWarehouse = async (req, res) => {
     if (!req.body.warehouse_name || !req.body.address || !req.body.city || !req.body.country || !req.body.contact_name || !req.body.contact_position || !req.body.contact_phone || !req.body.contact_email) {
       return res.status(400).json({
-        message: `Please provide ${req.body} for the warehouse in the request`,
+        message: `Please provide valid email address or phone number for the warehouse in the request`,
       });
     }
   
