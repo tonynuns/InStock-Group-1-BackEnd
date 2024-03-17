@@ -33,7 +33,7 @@ const findSingleWareHouse = async (req, res) => {
 
 const deleteWarehouse = async (req, res) => {
     try {
-      const wareHouseDeleted = await knex("user")
+      const wareHouseDeleted = await knex("warehouse")
         .where({ id: req.params.id })
         .delete();
   
