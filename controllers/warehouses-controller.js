@@ -1,5 +1,7 @@
 const knex = require('knex')(require('../knexfile'));
 
+
+
 const getWareHouses = async (_req, res) => {
     try {
         const data = await knex('warehouses');
@@ -36,10 +38,21 @@ const findSingleWareHouse = async (req, res) => {
 const addNewWarehouse = async (req, res) => {
     if (!req.body.warehouse_name || !req.body.address || !req.body.city || !req.body.country || !req.body.contact_name || !req.body.contact_position || !req.body.contact_phone || !req.body.contact_email) {
       return res.status(400).json({
-        message: `Please provide valid email address or phone number for the warehouse in the request`,
+        message: `Please review the information you have provide`,
       });
     }
-  
+    if (!req.body.contact_email.includes('@')) {
+        return res.status(400).json({
+          message: `Please provide a valid email for the warehouse in the request`,
+        });
+      }
+      const phone= /^[0-9()+\- ]+$/;
+      if (!phone.test(req.body.contact_phone)) {
+        return res.status(400).json({
+          message: `Please provide a valid phone number for the warehouse in the request`,
+        });
+      }
+
     try {
       const result = await knex("warehouses").insert(req.body);
   
