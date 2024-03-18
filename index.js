@@ -5,14 +5,12 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 5050;
 
-const wareHousesRoutes=require('./routes/warehouse');
 app.use(cors());
 app.use(express.json());
 
+const wareHousesRoutes = require("./routes/warehouse");
+app.use("/api", wareHousesRoutes);
 
-app.use('/api', wareHousesRoutes);
-
-//app.use('/warehouses',wareHousesRoutes);
 app.listen(PORT, () => {
 	console.log(`running at http://localhost:${PORT}`);
 });
