@@ -94,5 +94,6 @@ module.exports = {
     getWareHouses,
     findSingleWareHouse,
     deleteWarehouse,
+    addNewWarehouse,
   }
 
