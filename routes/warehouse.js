@@ -10,10 +10,7 @@ router
 router
 .route('/warehouses/:id')
 .get(userController.findSingleWareHouse)
-;
-
-
-
+.delete(userController.deleteWarehouse);
 
 
 module.exports = router;
