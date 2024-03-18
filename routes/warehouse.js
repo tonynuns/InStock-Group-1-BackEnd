@@ -1,15 +1,15 @@
 const router = require("express").Router();
-const userController = require("../controllers/warehouses-controller");
+const warehouseController = require("../controllers/warehouses-controller");
 
 router
-	.route("/warehouses")
-	.get(userController.getWareHouses)
-	.post(userController.addNewWarehouse);
+	.route("/")
+	.get(warehouseController.getWareHouses)
+	.post(warehouseController.addNewWarehouse);
 
 router
-	.route("/warehouses/:id")
-	.get(userController.findSingleWareHouse)
-	.put(userController.updateWarehouse)
-	.delete(userController.deleteWarehouse);
+	.route("/:id")
+	.get(warehouseController.findSingleWareHouse)
+	.put(warehouseController.updateWarehouse)
+	.delete(warehouseController.deleteWarehouse);
 
 module.exports = router;

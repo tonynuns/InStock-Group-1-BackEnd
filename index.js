@@ -9,7 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 const wareHousesRoutes = require("./routes/warehouse");
-app.use("/api", wareHousesRoutes);
+app.use("/api/warehouses", wareHousesRoutes);
+
+const inventoriesRoutes = require("./routes/inventory");
+app.use("/api/inventories", inventoriesRoutes);
 
 app.listen(PORT, () => {
 	console.log(`running at http://localhost:${PORT}`);
