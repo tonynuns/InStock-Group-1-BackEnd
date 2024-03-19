@@ -1,5 +1,14 @@
 const knex = require("knex")(require("../knexfile"));
 
+const getInventories = async (_req, res) => {
+	try {
+		const data = await knex("inventories");
+		res.status(200).json(data);
+	} catch (err) {
+		res.status(400).send(`Error retrieving inventory: ${err}`);
+	}
+};
+
 const updateInventory = async (req, res) => {
 	// checking if all field were filled
 	if (
@@ -58,4 +67,7 @@ const updateInventory = async (req, res) => {
 	}
 };
 
-module.exports = { updateInventory };
+module.exports = { 
+	updateInventory,
+	getInventories, 
+};
