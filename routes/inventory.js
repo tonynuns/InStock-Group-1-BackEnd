@@ -4,7 +4,7 @@ const inventoryController = require("../controllers/inventories-controller");
 router
     .route("/")
     .get(inventoryController.getInventories)
-    .post(inventoryController.addNewInventoryItem);
+    .post(inventoryController.createInventoryItem);
 
 router.route("/:id").put(inventoryController.updateInventory);
 

@@ -68,7 +68,7 @@ const updateInventory = async (req, res) => {
 };
 
 
-const addNewInventoryItem = async (req, res) => {
+const createInventoryItem = async (req, res) => {
 	if (
 		!req.body.warehouse_id ||
 		!req.body.item_name ||
@@ -119,5 +119,5 @@ const addNewInventoryItem = async (req, res) => {
 	}
 };
 
-module.exports = { updateInventory, getInventories, addNewInventoryItem };
+module.exports = { updateInventory, getInventories, createInventoryItem };
 
