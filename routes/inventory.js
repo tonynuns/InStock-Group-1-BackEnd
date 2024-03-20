@@ -3,7 +3,8 @@ const inventoryController = require("../controllers/inventories-controller");
 
 router
     .route("/")
-    .get(inventoryController.getInventories);
+    .get(inventoryController.getInventories)
+    .post(inventoryController.addNewInventoryItem);
 
 router.route("/:id").put(inventoryController.updateInventory);
 
