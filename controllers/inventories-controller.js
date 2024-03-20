@@ -68,6 +68,5 @@ const updateInventory = async (req, res) => {
 };
 
 module.exports = { 
-	updateInventory,
-	getInventories, 
+	updateInventory,getInventories, 
 };
