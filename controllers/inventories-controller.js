@@ -67,6 +67,42 @@ const updateInventory = async (req, res) => {
 	}
 };
 
-module.exports = { 
-	updateInventory,getInventories, 
+const addNewInventoryItem = async (req, res) => {
+	if (
+		!req.body.item_name ||
+		!req.body.description ||
+		!req.body.category ||
+		!req.body.status ||
+		!req.body.quantity
+	) {
+		return res.status(400).json({
+			message: `Please complete all required fields`,
+		});
+	}
+
+	try {
+		const createdInventoryItem = await knex("inventories").insert({
+
+		});
+		const NewInventoryItemId = createdInventoryItem[0].warehouse_id;
+		const inventoryItemFound = await knex("iventories").where({
+			id: NewInventoryItemId,
+		});
+		if (inventoryItemFound.length === 0) {
+			return res.status(400).json({
+				message: `inventory in warehouse with ID ${NewInventoryItemId} does not exist`,
+			});
+		}
+		if (typeof req.body.quantity !== "number") {
+			return res.status(400).json({
+				message: `Quantity needs to be a number`,
+			});
+		}
+		res.status(201).json(createdInventoryItem[0]);
+	} catch (error) {
+
+	}
 };
+
+module.exports = { updateInventory, getInventories, addNewInventoryItem };
+
