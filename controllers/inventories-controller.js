@@ -104,6 +104,5 @@ const addNewInventoryItem = async (req, res) => {
 	}
 };
 
-
-module.exports = { updateInventory, addNewInventoryItem };
+module.exports = { updateInventory, getInventories, addNewInventoryItem };
 
