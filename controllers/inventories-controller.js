@@ -9,6 +9,29 @@ const getInventories = async (_req, res) => {
 	}
 };
 
+const getInventoriesByWarehouseId = async (req, res) => {
+	// Get warehouse ID from URL
+    const { id } = req.params; 
+    try {
+		//Check if a warehouse exists with the given ID
+        const warehouse = await knex("warehouses").where("id", id).first();
+        if (!warehouse) {
+            return res.status(404).json({ 
+				message: `Warehouse with ID ${id} not found` 
+			});
+        }
+		
+		//Get all inventories with the given warehouse ID
+        const inventories = await knex("inventories").where("warehouse_id", id);
+        res.status(200).json(inventories);
+    } catch (error) {
+        res.status(500).json({ 
+			message: `Error retrieving inventories: ${err}` 
+		});
+    }
+};
+
+
 const updateInventory = async (req, res) => {
 	// checking if all field were filled
 	if (
@@ -104,5 +127,5 @@ const addNewInventoryItem = async (req, res) => {
 	}
 };
 
-module.exports = { updateInventory, getInventories, addNewInventoryItem };
+module.exports = { updateInventory, getInventories, addNewInventoryItem, getInventoriesByWarehouseId };
 
