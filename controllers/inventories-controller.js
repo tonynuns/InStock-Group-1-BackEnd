@@ -31,6 +31,26 @@ const getInventoriesByWarehouseId = async (req, res) => {
     }
 };
 
+const getSingleInventory = async (req, res) => {
+	try {
+		const inventoryFound = await knex("inventories").where({
+			id: req.params.id,
+		});
+
+		if (inventoryFound.length === 0) {
+			return res.status(404).json({
+				message: `Inventory with ID ${req.params.id} not found.`,
+			});
+		}
+
+		const inventoryData = inventoryFound[0];
+		res.status(200).json(inventoryData);
+	} catch (error) {
+		res.status(500).json({
+			message: `Unable to retrieve inventory data for ID ${req.params.id}.`,
+		});
+	}
+};
 
 const updateInventory = async (req, res) => {
 	// checking if all field were filled
@@ -90,8 +110,10 @@ const updateInventory = async (req, res) => {
 	}
 };
 
-const addNewInventoryItem = async (req, res) => {
+
+const createInventoryItem = async (req, res) => {
 	if (
+		!req.body.warehouse_id ||
 		!req.body.item_name ||
 		!req.body.description ||
 		!req.body.category ||
@@ -103,29 +125,43 @@ const addNewInventoryItem = async (req, res) => {
 		});
 	}
 
-	try {
-		const createdInventoryItem = await knex("inventories").insert({
-
+	if (isNaN(req.body.quantity)) {
+		return res.status(400).json({
+			message: `Quantity needs to be a number`,
 		});
-		const NewInventoryItemId = createdInventoryItem[0].warehouse_id;
-		const inventoryItemFound = await knex("iventories").where({
+	}
+
+	try {
+		const warehouseFound = await knex("warehouses").where({
+			id: req.body.warehouse_id,
+		});
+		if (warehouseFound.length === 0) {
+			return res.status(400).json({
+				message: `inventory warehouse with ID ${req.body.warehouse_id} does not exist`,
+			});
+		}
+
+		const createdInventoryItem = await knex("inventories").insert(req.body);
+		const NewInventoryItemId = createdInventoryItem[0];
+
+		const inventoryItemFound = await knex("inventories").where({
 			id: NewInventoryItemId,
 		});
+
 		if (inventoryItemFound.length === 0) {
 			return res.status(400).json({
 				message: `inventory in warehouse with ID ${NewInventoryItemId} does not exist`,
 			});
 		}
-		if (typeof req.body.quantity !== "number") {
-			return res.status(400).json({
-				message: `Quantity needs to be a number`,
-			});
-		}
-		res.status(201).json(createdInventoryItem[0]);
-	} catch (error) {
 
+		res.status(201).json(inventoryItemFound[0]);
+	} catch (err) {
+		res.status(500).json({
+			message: `Unable to update inventory with ID ${req.params.id}: ${err}`,
+		});
 	}
 };
 
-module.exports = { updateInventory, getInventories, addNewInventoryItem, getInventoriesByWarehouseId };
+module.exports = { updateInventory, getInventories, createInventoryItem, getSingleInventory, getInventoriesByWarehouseId};
+
 
