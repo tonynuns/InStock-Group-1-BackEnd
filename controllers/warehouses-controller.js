@@ -161,7 +161,7 @@ const getInventoriesByWarehouseId = async (req, res) => {
 		res.status(200).json(inventories);
 	} catch (error) {
 		res.status(500).json({
-			message: `Error retrieving inventories: ${err}`,
+			message: `Error retrieving inventories: ${error}`,
 		});
 	}
 };
