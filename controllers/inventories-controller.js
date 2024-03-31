@@ -1,17 +1,14 @@
 const knex = require("knex")(require("../knexfile"));
 
 const getInventories = async (_req, res) => {
-    try {
-        const data = await knex("inventories")
-            .join("warehouses", "inventories.warehouse_id", "=", "warehouses.id")
-            .select(
-                "inventories.*", 
-                "warehouses.warehouse_name" 
-            );
-        res.status(200).json(data);
-    } catch (err) {
-        res.status(400).send(`Error retrieving inventories: ${err}`);
-    }
+	try {
+		const data = await knex("inventories")
+			.join("warehouses", "inventories.warehouse_id", "=", "warehouses.id")
+			.select("inventories.*", "warehouses.warehouse_name");
+		res.status(200).json(data);
+	} catch (err) {
+		res.status(400).send(`Error retrieving inventories: ${err}`);
+	}
 };
 
 const getSingleInventory = async (req, res) => {
@@ -42,7 +39,7 @@ const updateInventory = async (req, res) => {
 		!req.body.description ||
 		!req.body.category ||
 		!req.body.status ||
-		!req.body.quantity
+		req.body.quantity === ""
 	) {
 		return res.status(400).json({
 			message: `Please complete all required fields`, // maybe modify wording later
@@ -50,7 +47,7 @@ const updateInventory = async (req, res) => {
 	}
 
 	// checking if quantity entered is a number
-	if (typeof req.body.quantity !== "number") {
+	if (isNaN(req.body.quantity)) {
 		return res.status(400).json({
 			message: `Quantity needs to be a number`,
 		});
@@ -100,7 +97,7 @@ const createInventoryItem = async (req, res) => {
 		!req.body.description ||
 		!req.body.category ||
 		!req.body.status ||
-		!req.body.quantity
+		req.body.quantity === ""
 	) {
 		return res.status(400).json({
 			message: `Please complete all required fields`,
