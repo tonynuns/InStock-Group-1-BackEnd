@@ -82,7 +82,7 @@ const updateWarehouse = async (req, res) => {
 		!req.body.contact_name ||
 		!req.body.contact_position ||
 		!req.body.contact_phone ||
-		req.body.contact_email
+		!req.body.contact_email
 	) {
 		return res.status(400).json({
 			message: `Please review the information you have provide`,
